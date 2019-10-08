@@ -1,0 +1,86 @@
+Installation File
+
+----------------------------------
+
+Installing ROS on Xenial
+
+sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main universe restricted multiverse"
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+
+sudo apt-get update
+sudo apt-get install ros-kinetic-desktop-full
+
+sudo rosdep init
+rosdep update
+
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+sudo apt-get install python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+----------------------------------
+
+bash.sh
+
+#/usr/bin/bash
+
+cd ~;
+source ~/.bashrc
+source /opt/ros/kinetic/setup.bash
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws
+catkin_make
+cd ~/catkin_ws/devel
+wget https://raw.githubusercontent.com/Gastd/fcr2018/master/ros_custom.sh
+cd ~/catkin_ws
+source ~/catkin_ws/devel/ros_custom.sh
+mkdir -p ~/.gazebo/models/
+cd ~/.gazebo/models/
+git clone https://github.com/Gastd/cic
+cd ~
+
+----------------------------------
+
+ROS Configuration
+
+chmod +x bash.sh
+./bash.sh
+
+cd catkin_ws/src
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp --rosdistro kinetic
+
+----------------------------------
+
+Pioneer
+
+cd catkin_ws/src
+git clone https://github.com/Gastd/fcr2018
+cd
+echo "/home/<username>/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+----------------------------------
+
+Launch Pioneer
+
+cd catkin_ws/src/fcr2018
+git pull
+
+cd catkin_ws
+catkin_make
+
+roslaunch fcr2018 pioneer3at.gazebo.launch
+roslaunch fcr2017 pioneer3at_forward_kinematics.stage.launch
+roslaunch fcr2017 stage-pioneer-3at-hokuyo.launch
+
+----------------------------------
+
+Pioneer Documentation
+
+https://cacic-robot.readthedocs.io/en/latest/
+http://www.mobilerobots.com/Libraries/Downloads/Pioneer3AT-P3AT-RevA.sflb.ashx
+https://www.inf.ufrgs.br/~prestes/Courses/Robotics/manual_pioneer.pdf
+
+-----------------------------------
